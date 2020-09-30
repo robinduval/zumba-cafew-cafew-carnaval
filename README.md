@@ -1,3 +1,6 @@
+Note que je m'atribue sur 100 :
+60/100
+
 A game for NLPF - qui fait : Zumba Cafew Cafew Carnaval
 ===========================
 
