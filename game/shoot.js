@@ -60,7 +60,8 @@ function player_collision()
     //collision between player and walls
     var x = player1.graphic.position.x + WIDTH / 2;
     var y = player1.graphic.position.y + HEIGHT / 2;
-
+    if ( x < 0 )
+        player1.graphic.position.x -= x;
     if ( x > WIDTH )
         player1.graphic.position.x -= x - WIDTH;
     if ( y < 0 )
@@ -72,28 +73,40 @@ function player_collision()
 
 function player_falling()
 {
-    var nb_tile = 10;
+    var nb_tile = 11;
     var sizeOfTileX = WIDTH / nb_tile;
     var sizeOfTileY = HEIGHT / nb_tile;
-    var x = player1.graphic.position.x | 0;
-    var y = player1.graphic.position.y | 0;
+    var x = player1.position.x | 0;
+    var y = player1.position.y | 0;
     var length = noGround.length;
     var element = null;
 
     for (var i = 0; i < length; i++) {
         element = noGround[i];
 
-        var tileX = (element[0]) | 0;
-        var tileY = (element[1]) | 0;
-        var mtileX = (element[0] + sizeOfTileX) | 0;
-        var mtileY = (element[1] + sizeOfTileY) | 0;
+        if (element == null)
+        {
+            continue
+        }
+
+        let tileX = (element[0]) | 0;
+        let tileY = (element[1]) | 0;
+        let mtileX = (element[0] + sizeOfTileX) | 0;
+        let mtileY = (element[1] + sizeOfTileY) | 0;
 
         if ((x > tileX)
             && (x < mtileX)
             && (y > tileY) 
             && (y < mtileY))
         {
-           player1.dead();
+            if (player1.life == 0)
+            {
+                player1.dead();
+            }
+            else
+            {
+                player1.life -= 1;
+            }
         }
     }
 

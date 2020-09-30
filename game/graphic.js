@@ -1,7 +1,7 @@
 function init()
 {
     // set some camera attributes
-    var VIEW_ANGLE = 45,
+    var VIEW_ANGLE = 55,
         ASPECT = WIDTH / HEIGHT,
         NEAR = 0.1,
         FAR = 10000;
@@ -24,9 +24,11 @@ function init()
 
     noGround = [];
     ground = new Ground(0xffffff, WIDTH, HEIGHT, 10);
-    
-    player1 = new Player("player1", 0xffff00, new THREE.Vector2(50, 0), 0);
-    scene.add(player1.graphic);
+
+    ennemi = new Player("ennemi", 0xff0000, new THREE.Vector2(10, 0), 0);
+    scene.add(ennemi.graphic);
+
+    ennemimove = 20;
 
     light1 = new Light("sun", 0xffffff, "0,0,340");
     scene.add(light1);
@@ -44,6 +46,8 @@ function Ground(color, size_x, size_y, nb_tile)
     minY = -(size_y/2);
     maxY = (size_y/2);
 
+    spawn = true;
+
     for (x = minX; x <= maxX; x = x+sizeOfTileX){
         for (y = minY; y <= maxY; y = y+sizeOfTileY){
 
@@ -51,6 +55,14 @@ function Ground(color, size_x, size_y, nb_tile)
        
             if (0x000000 != color)
             {
+
+                if (spawn == true )
+                {
+                    player1 = new Player("player1", 0xffff00, new THREE.Vector2(x, y), 0);
+                    scene.add(player1.graphic);
+                    spawn = false
+                }
+
                 tmpGround = new THREE.Mesh(
                 new THREE.PlaneGeometry(sizeOfTileX-10, sizeOfTileY-10),
                 new THREE.MeshLambertMaterial({color: color, transparent: true, opacity: 0.6}));
@@ -66,7 +78,7 @@ function Ground(color, size_x, size_y, nb_tile)
 
 function Light(name, color, position)
 {
-    pointLight = new THREE.PointLight(color, 50, 350);
+    pointLight = new THREE.PointLight(color, 50, 5000);
 
     pointLight.position.x = position.split(',')[0];
     pointLight.position.y = position.split(',')[1];
